@@ -17,6 +17,22 @@ const places = [
     image: '/images/places/p2.jpg',
     coords: [50.0424394, 14.3695968],
   },
+  {
+    id: 'p3',
+    title: 'Marianské Lázně',
+    author: 'Sebastian',
+    description: 'Moje bydliště',
+    image: '/images/places/p3.jpg',
+    coords: [49.9771932, 12.7064964],
+  },
+  {
+    id: 'p4',
+    title: 'DELTA',
+    author: 'Sebastian',
+    description: 'Škola',
+    image: '/images/places/p4.jpg',
+    coords: [50.0339032, 15.790338],
+  },
 ];
 
 export default places;

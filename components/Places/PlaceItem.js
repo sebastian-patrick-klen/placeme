@@ -21,8 +21,8 @@ export default function PlaceItem(props) {
     <motion.div
       initial='offscreen'
       whileInView='onscreen'
-      exit='offscreen'
-      viewport={{ once: false, amount: 0.81 }}
+      // exit='offscreen'
+      viewport={{ once: true, amount: 0.81 }}
       variants={cardVariants}
     >
       <div className='max-w-xl mx-auto flex flex-col bg-gray-100 rounded-lg overflow-hidden'>
@@ -40,7 +40,7 @@ export default function PlaceItem(props) {
           </h4>
           <p className='py-3 text-gray-600 text-center'>{props.description}</p>
           <div className='pt-3 flex items-center justify-center gap-4'>
-            <Link href={'/auth'}>
+            <Link href={`/map/${props.id}`}>
               <p className='px-5 py-3 bg-green-500 hover:bg-green-600 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
                 Ukázat na mapě
               </p>

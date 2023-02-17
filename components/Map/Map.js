@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
+import Markers from './Markers';
 
-export default function Map({ coords }) {
+export default function Map({ coords, placesData }) {
   return (
     <MapContainer
       className='w-full calc-height'
@@ -13,11 +14,7 @@ export default function Map({ coords }) {
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
 
-      <Marker position={[49.959373, 12.66853]}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      <Markers placesData={placesData} />
     </MapContainer>
   );
 }
