@@ -1,5 +1,7 @@
 import dynamic from 'next/dynamic';
 
-const Map = dynamic(() => import('./Map'), { ssr: false });
+const DynamicMap = dynamic(() => import('./Map'), { ssr: false });
 
-export default Map;
+export default function Map(props) {
+  return <DynamicMap {...props} />;
+}
