@@ -8,4 +8,8 @@
   html {
     font-family: Poppins, system-ui, sans-serif;
   }
+
+  .calc-height {
+    height: calc(100vh - 92px);
+  }
 }

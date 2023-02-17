@@ -21,7 +21,8 @@ export default function PlaceItem(props) {
     <motion.div
       initial='offscreen'
       whileInView='onscreen'
-      viewport={{ once: true, amount: 0.8 }}
+      exit='offscreen'
+      viewport={{ once: false, amount: 0.81 }}
       variants={cardVariants}
     >
       <div className='max-w-xl mx-auto flex flex-col bg-gray-100 rounded-lg overflow-hidden'>

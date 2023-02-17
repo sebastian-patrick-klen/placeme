@@ -13,10 +13,13 @@
     "@react-spring/parallax": "^9.6.1",
     "@react-spring/web": "^9.6.1",
     "framer-motion": "^9.0.2",
+    "google-map-react": "^2.2.0",
+    "leaflet": "^1.9.3",
     "next": "13.1.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-icons": "^4.7.1"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
+    "react-leaflet": "^4.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
