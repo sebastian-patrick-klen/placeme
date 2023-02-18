@@ -11,7 +11,7 @@ export default function MarkerCard({ place }) {
           {place.title}
         </h3>
         <p className='m-0 text-gray-600 leading-none text-center'>
-          {place.creator}
+          {place.creator.name}
         </p>
         <Link href={`/places/${place._id}`}>
           <p className='px-3 py-3 bg-green-500 leading-none hover:bg-green-600/90 text-sm text-center uppercase text-white font-bold rounded-lg transition-colors'>

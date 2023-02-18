@@ -36,7 +36,7 @@ export default function PlaceItem(props) {
         <div className='mt-10 mb-8 px-5'>
           <h3 className='text-xl text-center font-bold'>{props.title}</h3>
           <h4 className='py-1 text-sm text-gray-800 text-center'>
-            {props.author}
+            {props.creator.name}
           </h4>
           <p className='py-3 text-gray-600 text-center'>{props.description}</p>
           <div className='pt-3 flex items-center justify-center gap-4'>
