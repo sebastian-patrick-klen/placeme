@@ -5,8 +5,8 @@ export default function AllPosts(props) {
     <div className='grid grid-cols-1 gap-y-32 my-16'>
       {props.placesData.map((place) => (
         <PlaceItem
-          id={place.id}
-          key={place.id}
+          id={place._id}
+          key={place._id}
           title={place.title}
           description={place.description}
           author={place.author}

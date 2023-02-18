@@ -16,8 +16,10 @@ export default function HomePage(props) {
 }
 
 export async function getServerSideProps(context) {
-  const data = places;
+  const res = await fetch('http://localhost:5000/api/places');
+  const { places } = await res.json();
+
   return {
-    props: { data },
+    props: { data: places },
   };
 }

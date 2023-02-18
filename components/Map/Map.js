@@ -6,7 +6,7 @@ export default function Map({ coords, placesData }) {
     <MapContainer
       className='w-full calc-height'
       center={[coords[0], coords[1]]}
-      zoom={13}
+      zoom={20}
       scrollWheelZoom={true}
     >
       <TileLayer
