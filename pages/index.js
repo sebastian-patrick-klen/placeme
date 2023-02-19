@@ -1,5 +1,4 @@
 import AllPosts from '@/components/Places/AllPlaces';
-import places from '@/placeData';
 import { motion as m } from 'framer-motion';
 
 export default function HomePage(props) {

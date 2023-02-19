@@ -24,7 +24,7 @@ export default function MapPage(props) {
     }, []);
   } else {
     useEffect(() => {
-      const [findedPlace] = props.data.filter((place) => place._id === pid);
+      const [findedPlace] = props.places.filter((place) => place._id === pid);
       if (findedPlace) {
         setCoords([findedPlace.coords.lat, findedPlace.coords.lng]);
       }
@@ -32,7 +32,7 @@ export default function MapPage(props) {
   }
 
   // if (!coords[0]) {
-  //   setCoords(getRandPlace(props.data));
+  //   setCoords(getRandPlace(props.places));
   // }
 
   return (
@@ -42,9 +42,9 @@ export default function MapPage(props) {
       initial={{ y: '100%' }}
       transition={{ duration: 0.75, ease: 'easeOut' }}
     >
-      {/* <Map coords={[0, 0]} placesData={props.data} /> */}
+      {/* <Map coords={[0, 0]} placesData={props.places} /> */}
       {coords[0] ? (
-        <Map coords={coords} placesData={props.data} />
+        <Map coords={coords} placesData={props.places} />
       ) : (
         <Loading title={'Loading map...'} />
       )}
@@ -53,10 +53,11 @@ export default function MapPage(props) {
 }
 
 export async function getServerSideProps(context) {
-  const res = await fetch('http://localhost:5000/api/places');
+  const res = await fetch('http://localhost:3000/api/places');
+
   const { places } = await res.json();
 
   return {
-    props: { data: places },
+    props: { places },
   };
 }

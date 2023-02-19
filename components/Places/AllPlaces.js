@@ -9,7 +9,7 @@ export default function AllPosts(props) {
           key={place._id}
           title={place.title}
           description={place.description}
-          creator={place.creator}
+          creatorName={place.creatorName}
           image={place.image}
         />
       ))}

@@ -1,5 +1,4 @@
 import PlaceDetail from '@/components/Places/PlaceDetail';
-import places from '@/placeData';
 import { motion as m } from 'framer-motion';
 
 export default function HomePage(props) {

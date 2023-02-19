@@ -15,9 +15,9 @@ export default function PlaceDetail({ placesData }) {
 
         <div className='mt-10 mb-8 px-5'>
           <h3 className='text-xl text-center font-bold'>{placesData.title}</h3>
-          <Link href={`/user/${placesData.creator._id}`}>
+          <Link href={`/user/${placesData.creator}`}>
             <h4 className='py-1 text-sm text-gray-800 text-center'>
-              {placesData.creator.name}
+              {placesData.creatorName}
             </h4>
           </Link>
 

@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function MarkerCard({ place }) {
-  const isAuth = true;
   return (
     <div className='px-6'>
       {/* <Image src={place.image} alt={place.title} width={600} height={250} /> */}
@@ -11,7 +10,7 @@ export default function MarkerCard({ place }) {
           {place.title}
         </h3>
         <p className='m-0 text-gray-600 leading-none text-center'>
-          {place.creator.name}
+          {place.creatorName}
         </p>
         <Link href={`/places/${place._id}`}>
           <p className='px-3 py-3 bg-green-500 leading-none hover:bg-green-600/90 text-sm text-center uppercase text-white font-bold rounded-lg transition-colors'>
