@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 export default function Nav() {
-  const isLogin = false;
+  const isLogin = true;
   return (
     <ul className='flex items-center gap-12 py-6'>
       <li>
@@ -19,7 +19,7 @@ export default function Nav() {
         </Link>
       </li>{' '}
       <li>
-        <Link href={isLogin ? '/new-place' : '/auth'}>
+        <Link href={isLogin ? '/user/new-place' : '/auth'}>
           <p className='px-5 py-3 bg-green-500 hover:bg-green-600 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
             {isLogin ? 'Přidat nové místo' : 'Přihlásit se'}
           </p>

@@ -4,7 +4,7 @@ import { AiFillLike } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 
 const cardVariants = {
-  offscreen: { opacity: 0, scale: 0.8 },
+  offscreen: { opacity: 0, scale: 1 },
   onscreen: {
     opacity: 1,
     scale: 1,

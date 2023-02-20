@@ -14,10 +14,10 @@ export default function HomePage(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const res = await fetch('http://localhost:5000/api/places');
-  const { places } = await res.json();
 
+  const { places } = await res.json();
   return {
     props: { data: places },
   };

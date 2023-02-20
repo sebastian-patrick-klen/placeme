@@ -44,7 +44,12 @@ export default function MapPage(props) {
     >
       {/* <Map coords={[0, 0]} placesData={props.places} /> */}
       {coords[0] ? (
-        <Map coords={coords} placesData={props.places} />
+        <Map
+          location={coords}
+          placesData={props.places}
+          className='w-full calc-height'
+          isEdit={false}
+        />
       ) : (
         <Loading title={'Loading map...'} />
       )}
@@ -53,7 +58,7 @@ export default function MapPage(props) {
 }
 
 export async function getServerSideProps(context) {
-  const res = await fetch('http://localhost:3000/api/places');
+  const res = await fetch('http://localhost:5000/api/places');
 
   const { places } = await res.json();
 

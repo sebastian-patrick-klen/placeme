@@ -1,7 +1,7 @@
+import PlaceEditor from '@/components/Editor/PlaceEditor';
 import { motion as m } from 'framer-motion';
-import AtuhIndex from '@/components/Auth/authIndex';
 
-export default function () {
+export default function NewPlace() {
   return (
     <m.div
       animate={{ y: '0%' }}
@@ -9,7 +9,7 @@ export default function () {
       initial={{ y: '100%' }}
       transition={{ duration: 0.75, ease: 'easeOut' }}
     >
-      <AtuhIndex />
+      <PlaceEditor />
     </m.div>
   );
 }
