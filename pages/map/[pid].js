@@ -1,39 +1,24 @@
 import Map from '@/components/Map/index';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { motion as m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import Loading from '@/components/Layout/Loading';
+import PositionContext from '@/store/position-context';
 
 export default function MapPage(props) {
   const router = useRouter();
   const { pid } = router.query;
+  const posCtx = useContext(PositionContext);
   const [coords, setCoords] = useState([]);
 
-  // const getRandPlace = (inp) => {
-  //   const randNum = Math.floor(Math.random() * (inp.length - 0) + 0);
-  //   return inp[randNum].coords;
-  // };
-
-  if (pid === 'all') {
-    useEffect(() => {
-      (() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-          setCoords([position.coords.latitude, position.coords.longitude]);
-        });
-      })();
-    }, []);
-  } else {
-    useEffect(() => {
-      const [findedPlace] = props.places.filter((place) => place._id === pid);
-      if (findedPlace) {
-        setCoords([findedPlace.coords.lat, findedPlace.coords.lng]);
-      }
-    }, [pid]);
-  }
-
-  // if (!coords[0]) {
-  //   setCoords(getRandPlace(props.places));
-  // }
+  useEffect(() => {
+    const [findedPlace] = props.places.filter((place) => place._id === pid);
+    if (findedPlace) {
+      posCtx.setPosition(findedPlace.coords);
+    } else {
+      posCtx.setPosition(null);
+    }
+  }, [pid]);
 
   return (
     <m.div
@@ -42,17 +27,11 @@ export default function MapPage(props) {
       initial={{ y: '100%' }}
       transition={{ duration: 0.75, ease: 'easeOut' }}
     >
-      {/* <Map coords={[0, 0]} placesData={props.places} /> */}
-      {coords[0] ? (
-        <Map
-          location={coords}
-          placesData={props.places}
-          className='w-full calc-height'
-          isEdit={false}
-        />
-      ) : (
-        <Loading title={'Loading map...'} />
-      )}
+      <Map
+        placesData={props.places}
+        className='w-full calc-height'
+        isEdit={false}
+      />
     </m.div>
   );
 }

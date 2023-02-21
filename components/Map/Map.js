@@ -1,57 +1,81 @@
-import { useState } from 'react';
+import PositionContext from '@/store/position-context';
+import { useContext, useEffect, useState } from 'react';
 import {
   MapContainer,
   TileLayer,
   Marker,
   Popup,
   useMapEvents,
+  useMap,
 } from 'react-leaflet';
 import Markers from './Markers';
 
 export default function Map({
-  location,
   placesData,
   className,
   isEdit,
   getPlaceLocation,
 }) {
+  const posCtx = useContext(PositionContext);
+
   // Get coords, render place marker
-  const [placePosition, setPlacePosition] = useState(null);
   function LocationMarker() {
     const map = useMapEvents({
       dblclick(e) {
-        setPlacePosition(e.latlng);
-        getPlaceLocation(placePosition);
+        posCtx.setNewPlacePos(e.latlng);
       },
     });
+    console.log(posCtx.newPlacePos);
+
+    return posCtx.newPlacePos === null ? null : (
+      <Marker position={posCtx.newPlacePos}>
+        <Popup>You are here</Popup>
+      </Marker>
+    );
+  }
+
+  function LookAt() {
+    const [position, setPosition] = useState(null);
+
+    const map = useMap();
+
+    useEffect(() => {
+      map.locate().on('locationfound', function (e) {
+        setPosition(e.latlng);
+
+        if (!posCtx.position) {
+          map.flyTo(e.latlng, map.getZoom());
+        } else {
+          map.flyTo(posCtx.position, map.getZoom());
+        }
+      });
+    }, [map]);
+
+    return position === null ? null : (
+      <Marker position={position}>
+        <Popup>
+          <p>Právě se nacházíte zde</p>
+        </Popup>
+      </Marker>
+    );
   }
 
   return (
     <MapContainer
       className={className}
-      center={[location[0], location[1]]}
+      center={
+        isEdit && posCtx.newPlacePos ? posCtx.newPlacePos : [50.0833, 14.4667]
+      }
       zoom={20}
       doubleClickZoom={false}
       scrollWheelZoom={true}
     >
-      <TileLayer
-        // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-      />
+      <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
 
-      <Marker position={location}>
-        <Popup>
-          <p>Tady se nacházíte</p>
-        </Popup>
-      </Marker>
+      {!isEdit && <LookAt />}
 
-      {/* Adding new place */}
-      {isEdit && placePosition && (
-        <Marker position={placePosition}>
-          <Popup>You are here</Popup>
-        </Marker>
-      )}
       {isEdit && <LocationMarker />}
+
       <Markers placesData={placesData} />
     </MapContainer>
   );

@@ -1,7 +1,8 @@
+import PositionContext from '@/store/position-context';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Form from '../Forms/Form';
 import FormButton from '../Forms/FormButton';
 import Input from '../Forms/Input';
@@ -9,7 +10,8 @@ import Modal from '../Layout/UI/Modal';
 import SelectLocation from './SelectLocation';
 
 export default function PlaceEditor() {
-  const [placeCoords, setPlaceCoords] = useState({});
+  const posCtx = useContext(PositionContext);
+  // const [placeCoords, setPlaceCoords] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
 
   // Form
@@ -25,7 +27,7 @@ export default function PlaceEditor() {
         title: values.title,
         description: values.description,
         image: values.img,
-        coords: placeCoords,
+        coords: posCtx.newPlacePos,
         creator: '63f22a836525a805c47ded6a',
       };
 
@@ -45,14 +47,12 @@ export default function PlaceEditor() {
   });
 
   // Place Location
-  const getPlaceLocation = (plCoords) => {
-    setPlaceCoords(plCoords);
-  };
 
   useEffect(() => {
     setTimeout(() => closeModal(), 500);
     // closeModal();
-  }, [placeCoords]);
+    // setPlaceCoords(posCtx.newPlacePos);
+  }, [posCtx.newPlacePos]);
 
   //   Modal
   const closeModal = () => setModalOpen(false);
@@ -110,7 +110,7 @@ export default function PlaceEditor() {
       <AnimatePresence>
         {modalOpen && (
           <Modal modalOpen={modalOpen} handleClose={closeModal}>
-            <SelectLocation getPlaceLocation={getPlaceLocation} />
+            <SelectLocation />
           </Modal>
         )}
       </AnimatePresence>

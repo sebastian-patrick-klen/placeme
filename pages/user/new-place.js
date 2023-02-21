@@ -1,5 +1,7 @@
 import PlaceEditor from '@/components/Editor/PlaceEditor';
+import PositionContext from '@/store/position-context';
 import { motion as m } from 'framer-motion';
+import { useContext, useEffect, useState } from 'react';
 
 export default function NewPlace() {
   return (
