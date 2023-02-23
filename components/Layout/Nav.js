@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { AiFillSetting } from 'react-icons/ai';
 
 export default function Nav() {
-  const isAuth = false;
+  const isAuth = true;
   return (
     <ul className='flex items-center  gap-12 py-6'>
       <li>

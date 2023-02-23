@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import ImageUpload from '../Editor/ImageUpload';
 import Form from '../Forms/Form';
@@ -7,6 +7,7 @@ import FormButton from '../Forms/FormButton';
 import Input from '../Forms/Input';
 
 export default function SingupForm() {
+  const router = useRouter();
   const [imgUrl, setImgUrl] = useState();
   const formik = useFormik({
     initialValues: {
@@ -14,6 +15,7 @@ export default function SingupForm() {
       email: '',
       image: '',
       password: '',
+      testImg: '',
     },
 
     onSubmit: (values) => {
@@ -21,7 +23,7 @@ export default function SingupForm() {
       formData.append('email', values.email);
       formData.append('name', values.name);
       formData.append('password', values.password);
-      formData.append('image', imgUrl);
+      formData.append('image', values.image);
 
       fetch('http://localhost:5000/api/users/signup', {
         method: 'POST',
@@ -29,9 +31,10 @@ export default function SingupForm() {
       })
         .then(function (res) {
           console.log('Successfully signed up!');
+          router.push('/');
         })
         .catch(function (res) {
-          console.log('error');
+          console.log(res);
         });
     },
   });
@@ -62,7 +65,10 @@ export default function SingupForm() {
         onChange={formik.handleChange}
         value={formik.values.password}
       />
-      <ImageUpload placeholder='Vybrat Obrázek' setImgUrl={setImgUrl} />
+      <ImageUpload
+        placeholder='Vybrat Obrázek'
+        onChange={(e) => formik.setFieldValue('image', e.target.files[0])}
+      />
 
       <FormButton type='submit'>Zaregistrovat se</FormButton>
     </Form>

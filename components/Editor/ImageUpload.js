@@ -1,19 +1,7 @@
 import { useEffect, useState } from 'react';
 
-export default function ImageUpload({ placeholder, setImgUrl }) {
+export default function ImageUpload({ placeholder, setImgUrl, onChange }) {
   const [file, setFile] = useState();
-
-  useEffect(() => {
-    if (!file) {
-      return;
-    }
-    setImgUrl(file);
-    // const fileReader = new FileReader();
-    // fileReader.onload = () => {
-    //   setImgUrl(fileReader.result);
-    // };
-    // fileReader.readAsDataURL(file);
-  }, [file]);
 
   return (
     <div>
@@ -22,9 +10,7 @@ export default function ImageUpload({ placeholder, setImgUrl }) {
         name='image'
         id='image'
         placeholder={placeholder}
-        onChange={(event) => {
-          setFile(event.target.files[0]);
-        }}
+        onChange={onChange}
         accept='.jpg,.png,.jpeg'
         className='block w-full text-sm text-slate-500
             file:mr-4 file:py-2 file:px-4
