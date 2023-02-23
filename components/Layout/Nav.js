@@ -1,13 +1,14 @@
 import Link from 'next/link';
+import { AiFillSetting } from 'react-icons/ai';
 
 export default function Nav() {
-  const isLogin = true;
+  const isAuth = false;
   return (
-    <ul className='flex items-center gap-12 py-6'>
+    <ul className='flex items-center  gap-12 py-6'>
       <li>
         <Link href={'/'}>
           <p className='text-sm hover:text-green-500 font-bold transition-colors'>
-            Místa
+            Uživatelé
           </p>
         </Link>
       </li>{' '}
@@ -19,11 +20,21 @@ export default function Nav() {
         </Link>
       </li>{' '}
       <li>
-        <Link href={isLogin ? '/user/new-place' : '/auth'}>
-          <p className='px-5 py-3 bg-green-500 hover:bg-green-600 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
-            {isLogin ? 'Přidat nové místo' : 'Přihlásit se'}
-          </p>
-        </Link>
+        <div className='flex items-center justify-center gap-4'>
+          <Link href={isAuth ? '/user/new-place' : '/auth'}>
+            <p className='px-5 py-3 bg-green-500 hover:bg-green-600 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
+              {isAuth ? 'Přidat nové místo' : 'Přihlásit se'}
+            </p>
+          </Link>
+
+          {isAuth && (
+            <Link href={'/auth'}>
+              <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
+                <AiFillSetting size='21px' color='#94a3b8' />
+              </p>
+            </Link>
+          )}
+        </div>
       </li>
     </ul>
   );

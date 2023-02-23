@@ -7,6 +7,7 @@ import Form from '../Forms/Form';
 import FormButton from '../Forms/FormButton';
 import Input from '../Forms/Input';
 import Modal from '../Layout/UI/Modal';
+import ImageUpload from './ImageUpload';
 import SelectLocation from './SelectLocation';
 
 export default function PlaceEditor() {
@@ -28,7 +29,7 @@ export default function PlaceEditor() {
         description: values.description,
         image: values.img,
         coords: posCtx.newPlacePos,
-        creator: '63f22a836525a805c47ded6a',
+        creator: '63f4d019cc8b630a605250da',
       };
 
       axios({
@@ -78,21 +79,14 @@ export default function PlaceEditor() {
           value={formik.values.description}
         />
 
-        <input
-          type='file'
-          name='img'
+        <ImageUpload
           id='img'
-          placeholder='Vyberte Soubor'
+          src='/images/places/p2.jpg'
+          name='img'
+          placeholder='Vybrat Obrázek'
           onChange={formik.handleChange}
           value={formik.values.img}
-          className='block w-full text-sm text-slate-500
-          file:mr-4 file:py-2 file:px-4
-          file:rounded-full file:border-0
-          file:text-sm file:font-semibold
-          file:bg-green-50 file:text-green-700
-          hover:file:bg-green-100'
         />
-
         <button
           type='button'
           onClick={setModalOpen}

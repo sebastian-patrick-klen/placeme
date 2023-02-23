@@ -1,6 +1,6 @@
 import PlaceItem from './PlaceItem';
 
-export default function AllPosts(props) {
+export default function AllPlaces(props) {
   return (
     <div className='grid grid-cols-1 gap-y-32 my-16'>
       {props.placesData.map((place) => (
