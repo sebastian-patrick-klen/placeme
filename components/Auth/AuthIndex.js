@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion as m, AnimatePresence } from 'framer-motion';
 import LoginForm from './LoginForm';
 import SingupForm from './SignupForm';
 

@@ -1,7 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { AiFillLike } from 'react-icons/ai';
+import { AiFillSetting, AiFillDelete } from 'react-icons/ai';
 import { motion } from 'framer-motion';
+import { useContext } from 'react';
+import DeleteContext from '@/store/delete-context';
+import ModalContext from '@/store/modal-context';
 
 const cardVariants = {
   offscreen: { opacity: 0, scale: 1 },
@@ -17,6 +20,8 @@ const cardVariants = {
 };
 
 export default function PlaceItem(props) {
+  const delCtx = useContext(DeleteContext);
+  const modCtx = useContext(ModalContext);
   return (
     <motion.div
       initial='offscreen'
@@ -27,7 +32,8 @@ export default function PlaceItem(props) {
     >
       <div className='max-w-xl mx-auto flex flex-col bg-gray-100 rounded-lg overflow-hidden'>
         <Image
-          src={props.image}
+          className=' h-80'
+          src={`http://localhost:5000/${props.image}`}
           alt={props.title}
           width={600}
           height={250}
@@ -46,11 +52,20 @@ export default function PlaceItem(props) {
                 Ukázat na mapě
               </p>
             </Link>
-            <Link href={'/auth'}>
+            <Link href={`/places/new-place/${props.id}`}>
               <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
-                <AiFillLike size='21px' color='#94a3b8' />
+                <AiFillSetting size='21px' color='#94a3b8' />
               </p>
-            </Link>
+            </Link>{' '}
+            <button
+              onClick={() => {
+                delCtx.setNewId(props.id);
+                modCtx.setOpen();
+              }}
+              className='px-5 py-3 bg-gray-200 hover:bg-red-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'
+            >
+              <AiFillDelete size='21px' color='#94a3b8' />
+            </button>
           </div>
         </div>
       </div>

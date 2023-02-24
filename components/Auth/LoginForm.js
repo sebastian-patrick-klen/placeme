@@ -1,25 +1,27 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
 import Form from '../Forms/Form';
 import FormButton from '../Forms/FormButton';
 import Input from '../Forms/Input';
 
 export default function LoginForm() {
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
 
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       axios({
         method: 'POST',
         url: 'http://localhost:5000/api/users/login',
         data: values,
       })
         .then(function (res) {
-          console.log(res);
-          alert('Successfully logged up!');
+          console.log(res.data);
+          router.push(`/user/${res.data.id}`);
         })
         .catch(function (res) {
           console.log(res);

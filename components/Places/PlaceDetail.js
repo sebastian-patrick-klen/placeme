@@ -1,13 +1,19 @@
+import DeleteContext from '@/store/delete-context';
+import ModalContext from '@/store/modal-context';
 import Image from 'next/image';
 import Link from 'next/link';
-import { AiFillLike } from 'react-icons/ai';
+import { useContext } from 'react';
+import { AiFillSetting, AiFillDelete } from 'react-icons/ai';
 
 export default function PlaceDetail({ placesData }) {
+  const delCtx = useContext(DeleteContext);
+  const modCtx = useContext(ModalContext);
   return (
     <div className='w-full calc-height flex items-center justify-center overflow-hidden rounded-lg'>
       <div className='max-w-2xl mx-auto flex flex-col bg-gray-100 rounded-lg overflow-hidden'>
         <Image
-          src={placesData.image}
+          className=' h-96'
+          src={`http://localhost:5000/${placesData.image}`}
           alt={placesData.title}
           width={700}
           height={250}
@@ -30,11 +36,20 @@ export default function PlaceDetail({ placesData }) {
                 Ukázat na mapě
               </p>
             </Link>
-            <Link href={'/auth'}>
+            <Link href={`/places/new-place/${placesData.id}`}>
               <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
-                <AiFillLike size='21px' color='#94a3b8' />
+                <AiFillSetting size='21px' color='#94a3b8' />
               </p>
-            </Link>
+            </Link>{' '}
+            <button
+              onClick={() => {
+                delCtx.setNewId(placesData.id);
+                modCtx.setOpen();
+              }}
+              className='px-5 py-3 bg-gray-200 hover:bg-red-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'
+            >
+              <AiFillDelete size='21px' color='#94a3b8' />
+            </button>
           </div>
         </div>
       </div>

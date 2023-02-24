@@ -25,12 +25,15 @@ export default function SingupForm() {
       formData.append('password', values.password);
       formData.append('image', values.image);
 
+      console.log(formData);
+
       fetch('http://localhost:5000/api/users/signup', {
         method: 'POST',
         body: formData,
       })
+        .then((res) => res.json())
         .then(function (res) {
-          console.log('Successfully signed up!');
+          console.log(res);
           router.push('/');
         })
         .catch(function (res) {
