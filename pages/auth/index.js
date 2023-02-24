@@ -1,5 +1,6 @@
 import { motion as m } from 'framer-motion';
 import AtuhIndex from '@/components/Auth/authIndex';
+import { getSession } from 'next-auth/react';
 
 export default function () {
   return (
@@ -12,4 +13,20 @@ export default function () {
       <AtuhIndex />
     </m.div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
 }

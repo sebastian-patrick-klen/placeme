@@ -1,8 +1,9 @@
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { AiFillSetting } from 'react-icons/ai';
 
 export default function Nav() {
-  const isAuth = true;
+  const { data, status } = useSession();
   return (
     <ul className='flex items-center  gap-12 py-6'>
       <li>
@@ -21,18 +22,25 @@ export default function Nav() {
       </li>{' '}
       <li>
         <div className='flex items-center justify-center gap-4'>
-          <Link href={isAuth ? '/places/new-place' : '/auth'}>
+          <Link
+            href={status === 'authenticated' ? '/places/new-place' : '/auth'}
+          >
             <p className='px-5 py-3 bg-green-500 hover:bg-green-600 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
-              {isAuth ? 'Přidat nové místo' : 'Přihlásit se'}
+              {status === 'authenticated'
+                ? 'Přidat nové místo'
+                : 'Přihlásit se'}
             </p>
           </Link>
 
-          {isAuth && (
-            <Link href={'/auth'}>
-              <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
-                <AiFillSetting size='21px' color='#94a3b8' />
-              </p>
-            </Link>
+          {status === 'authenticated' && (
+            // <Link href={'/auth'}>
+            <p
+              onClick={() => signOut()}
+              className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'
+            >
+              <AiFillSetting size='21px' color='#94a3b8' />
+            </p>
+            // </Link>
           )}
         </div>
       </li>

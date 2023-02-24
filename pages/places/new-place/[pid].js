@@ -1,3 +1,4 @@
+import { getSession } from 'next-auth/react';
 import PlaceUpdate from '@/components/Editor/PlaceUpdate';
 import Loading from '@/components/Layout/Loading';
 import { motion } from 'framer-motion';
@@ -20,6 +21,16 @@ export default function NewPlace({ place }) {
 }
 
 export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/auth',
+        permanent: false,
+      },
+    };
+  }
+
   const id = context.params.pid;
   const fetchString = `http://localhost:5000/api/places/${id}`;
   const res = await fetch(fetchString);
