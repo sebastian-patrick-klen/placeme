@@ -1,8 +1,4 @@
-import { useEffect, useState } from 'react';
-
-export default function ImageUpload({ placeholder, setImgUrl, onChange }) {
-  const [file, setFile] = useState();
-
+export default function ImageUpload({ placeholder, onChange }) {
   return (
     <div>
       <input

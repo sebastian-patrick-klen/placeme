@@ -2,6 +2,7 @@ import PositionContext from '@/store/position-context';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Form from '../Forms/Form';
 import FormButton from '../Forms/FormButton';
@@ -10,52 +11,68 @@ import Modal from '../Layout/UI/Modal';
 import ImageUpload from './ImageUpload';
 import SelectLocation from './SelectLocation';
 
-export default function PlaceEditor() {
+export default function PlaceEditor({ isEdit, placeData }) {
+  const router = useRouter();
   const posCtx = useContext(PositionContext);
-  // const [placeCoords, setPlaceCoords] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
 
-  // Form
   const formik = useFormik({
     initialValues: {
       title: '',
       description: '',
-      img: '',
+      image: '',
     },
 
     onSubmit: (values) => {
-      const place = {
-        title: values.title,
-        description: values.description,
-        image: values.img,
-        coords: posCtx.newPlacePos,
-        creator: '63f4d019cc8b630a605250da',
-      };
+      const formData = new FormData();
+      formData.append('title', values.title);
+      formData.append('description', values.description);
+      formData.append('lat', posCtx.newPlacePos.lat);
+      formData.append('lng', posCtx.newPlacePos.lng);
+      {
+        !isEdit && formData.append('image', values.image);
+      }
+      formData.append('creator', '63f7533cc719a072cb3c8cef');
 
-      axios({
-        method: 'POST',
-        url: 'http://localhost:5000/api/places',
-        data: place,
-      })
-        .then(function (res) {
-          console.log(res);
-          alert('Successfully logged up!');
+      console.log(formData);
+
+      console.log(placeData.id);
+      fetch(
+        !isEdit
+          ? 'http://localhost:5000/api/places'
+          : `http://localhost:5000/api/places/${placeData._id}`,
+        {
+          method: !isEdit ? 'POST' : 'PATCH',
+          body: formData,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then(({ message, place }) => {
+          console.log(place, message);
+          router.push(`/places/${place.id}`);
         })
-        .catch(function (res) {
+        .catch((res) => {
           console.log(res);
         });
     },
   });
+  {
+    isEdit &&
+      useEffect(() => {
+        formik.setFieldValue('title', placeData.title);
+        formik.setFieldValue('description', placeData.description);
+        posCtx.setNewPlacePos(placeData.coords);
+      }, [placeData]);
+  }
 
-  // Place Location
-
+  // Modal
   useEffect(() => {
     setTimeout(() => closeModal(), 500);
-    // closeModal();
-    // setPlaceCoords(posCtx.newPlacePos);
   }, [posCtx.newPlacePos]);
 
-  //   Modal
   const closeModal = () => setModalOpen(false);
   const openModal = () => setModalOpen(true);
 
@@ -79,14 +96,13 @@ export default function PlaceEditor() {
           value={formik.values.description}
         />
 
-        <ImageUpload
-          id='img'
-          src='/images/places/p2.jpg'
-          name='img'
-          placeholder='Vybrat Obrázek'
-          onChange={formik.handleChange}
-          value={formik.values.img}
-        />
+        {!isEdit && (
+          <ImageUpload
+            placeholder='Vybrat Obrázek'
+            onChange={(e) => formik.setFieldValue('image', e.target.files[0])}
+          />
+        )}
+
         <button
           type='button'
           onClick={setModalOpen}

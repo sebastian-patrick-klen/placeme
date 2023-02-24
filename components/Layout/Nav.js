@@ -21,7 +21,7 @@ export default function Nav() {
       </li>{' '}
       <li>
         <div className='flex items-center justify-center gap-4'>
-          <Link href={isAuth ? '/user/new-place' : '/auth'}>
+          <Link href={isAuth ? '/places/edit/new-place' : '/auth'}>
             <p className='px-5 py-3 bg-green-500 hover:bg-green-600 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
               {isAuth ? 'Přidat nové místo' : 'Přihlásit se'}
             </p>
