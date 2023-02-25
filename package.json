@@ -22,7 +22,8 @@
     "react-icons": "^4.7.1",
     "react-leaflet": "^4.2.0",
     "react-modal": "^3.16.1",
-    "vercel": "^28.16.6"
+    "vercel": "^28.16.6",
+    "yup": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

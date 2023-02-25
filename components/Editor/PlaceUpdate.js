@@ -2,6 +2,7 @@ import PositionContext from '@/store/position-context';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { AnimatePresence } from 'framer-motion';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Form from '../Forms/Form';
@@ -11,6 +12,7 @@ import Modal from '../Layout/UI/Modal';
 import SelectLocation from './SelectLocation';
 
 export default function PlaceUpdate({ isEdit, placeData }) {
+  const { data: token } = useSession();
   const router = useRouter();
   const posCtx = useContext(PositionContext);
   const [modalOpen, setModalOpen] = useState(false);
@@ -29,14 +31,20 @@ export default function PlaceUpdate({ isEdit, placeData }) {
         lng: posCtx.newPlacePos.lng,
       };
       const fetchString = `http://localhost:5000/api/places/${placeData._id}`;
+      console.log(token);
 
-      axios({
+      fetch(fetchString, {
         method: 'PATCH',
-        url: fetchString,
-        data: formData,
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token.user.token}`,
+        },
       })
-        .then(({ data }) => {
-          router.push(`/places/${data.place.id}`);
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+          router.push(`/places/${res.place.id}`);
         })
         .catch((err) => {
           console.log(err);

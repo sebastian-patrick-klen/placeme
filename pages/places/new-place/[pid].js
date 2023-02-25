@@ -36,6 +36,15 @@ export async function getServerSideProps(context) {
   const res = await fetch(fetchString);
   const place = await res.json();
 
+  if (session.user.id !== place.place.creator) {
+    return {
+      redirect: {
+        destination: '/auth',
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: { place },
   };

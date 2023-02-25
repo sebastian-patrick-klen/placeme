@@ -1,6 +1,7 @@
 import PositionContext from '@/store/position-context';
 import { useFormik } from 'formik';
 import { AnimatePresence } from 'framer-motion';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Form from '../Forms/Form';
@@ -11,6 +12,8 @@ import ImageUpload from './ImageUpload';
 import SelectLocation from './SelectLocation';
 
 export default function PlaceEditor({ isEdit, placeData }) {
+  const { data: token } = useSession();
+
   const router = useRouter();
   const posCtx = useContext(PositionContext);
   const [modalOpen, setModalOpen] = useState(false);
@@ -22,32 +25,26 @@ export default function PlaceEditor({ isEdit, placeData }) {
       image: '',
     },
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const formData = new FormData();
       formData.append('title', values.title);
       formData.append('description', values.description);
       formData.append('lat', posCtx.newPlacePos.lat);
       formData.append('lng', posCtx.newPlacePos.lng);
       formData.append('image', values.image);
-      formData.append('creator', '63f7533cc719a072cb3c8cef');
 
-      console.log(formData);
-
-      fetch(
-        'http://localhost:5000/api/places',
-
-        {
-          method: 'POST',
-          body: formData,
-        }
-      )
+      fetch('http://localhost:5000/api/places', {
+        method: 'POST',
+        body: formData,
+        headers: { Authorization: `Bearer ${token.user.token}` },
+      })
         .then((res) => res.json())
         .then(({ message, place }) => {
           console.log(place, message);
           router.push(`/places/${place.id}`);
         })
-        .catch((res) => {
-          console.log(res);
+        .catch((err) => {
+          // console.log(err);
         });
     },
   });

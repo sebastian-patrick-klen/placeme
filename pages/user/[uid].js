@@ -35,6 +35,7 @@ export default function Profile({ places }) {
   function closeModal() {
     modCtx.setClose();
   }
+  console.log(places);
 
   return (
     <m.div

@@ -1,3 +1,4 @@
+import { signupSchema } from '@/schemas';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -15,8 +16,8 @@ export default function SingupForm() {
       email: '',
       image: '',
       password: '',
-      testImg: '',
     },
+    validationSchema: signupSchema,
 
     onSubmit: (values) => {
       const formData = new FormData();
@@ -51,6 +52,9 @@ export default function SingupForm() {
         placeholder='Jméno'
         onChange={formik.handleChange}
         value={formik.values.name}
+        onBlur={formik.handleBlur}
+        isError={formik.errors.name && formik.touched.name}
+        errMessage={formik.errors.name}
       />
       <Input
         id='email'
@@ -59,6 +63,9 @@ export default function SingupForm() {
         type='email'
         onChange={formik.handleChange}
         value={formik.values.email}
+        onBlur={formik.handleBlur}
+        isError={formik.errors.email && formik.touched.email}
+        errMessage={formik.errors.email}
       />
       <Input
         type='password'
@@ -67,13 +74,23 @@ export default function SingupForm() {
         placeholder='Heslo'
         onChange={formik.handleChange}
         value={formik.values.password}
+        onBlur={formik.handleBlur}
+        isError={formik.errors.password}
+        errMessage={formik.errors.password}
       />
       <ImageUpload
         placeholder='Vybrat Obrázek'
-        onChange={(e) => formik.setFieldValue('image', e.target.files[0])}
+        onBlur={formik.handleBlur}
+        isError={formik.errors.image}
+        errMessage={formik.errors.image}
+        onChange={(e) => {
+          formik.setFieldValue('image', e.target.files[0]);
+        }}
       />
 
-      <FormButton type='submit'>Zaregistrovat se</FormButton>
+      <FormButton isValid={''} type='submit'>
+        Zaregistrovat se
+      </FormButton>
     </Form>
   );
 }

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useContext } from 'react';
 import DeleteContext from '@/store/delete-context';
 import ModalContext from '@/store/modal-context';
+import { useSession } from 'next-auth/react';
 
 const cardVariants = {
   offscreen: { opacity: 0, scale: 1 },
@@ -20,6 +21,8 @@ const cardVariants = {
 };
 
 export default function PlaceItem(props) {
+  const { data: token, status } = useSession();
+  console.log(token?.user.id, props);
   const delCtx = useContext(DeleteContext);
   const modCtx = useContext(ModalContext);
   return (
@@ -52,20 +55,24 @@ export default function PlaceItem(props) {
                 Ukázat na mapě
               </p>
             </Link>
-            <Link href={`/places/new-place/${props.id}`}>
-              <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
-                <AiFillSetting size='21px' color='#94a3b8' />
-              </p>
-            </Link>{' '}
-            <button
-              onClick={() => {
-                delCtx.setNewId(props.id);
-                modCtx.setOpen();
-              }}
-              className='px-5 py-3 bg-gray-200 hover:bg-red-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'
-            >
-              <AiFillDelete size='21px' color='#94a3b8' />
-            </button>
+            {props.creator === token?.user.id && status === 'authenticated' && (
+              <>
+                <Link href={`/places/new-place/${props.id}`}>
+                  <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
+                    <AiFillSetting size='21px' color='#94a3b8' />
+                  </p>
+                </Link>{' '}
+                <button
+                  onClick={() => {
+                    delCtx.setNewId(props.id);
+                    modCtx.setOpen();
+                  }}
+                  className='px-5 py-3 bg-gray-200 hover:bg-red-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'
+                >
+                  <AiFillDelete size='21px' color='#94a3b8' />
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

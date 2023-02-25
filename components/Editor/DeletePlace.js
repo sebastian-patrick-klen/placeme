@@ -1,11 +1,12 @@
 import DeleteContext from '@/store/delete-context';
 import ModalContext from '@/store/modal-context';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { AiOutlineCloseCircle, AiFillDelete } from 'react-icons/ai';
 
 export default function () {
+  const { data: token } = useSession();
   const router = useRouter();
   const modCtx = useContext(ModalContext);
   const delCtx = useContext(DeleteContext);
@@ -14,6 +15,7 @@ export default function () {
     axios({
       method: 'delete',
       url: `http://localhost:5000/api/places/${delCtx.newId}`,
+      headers: { Authorization: `Bearer ${token.user.token}` },
     })
       .then((res) => {
         console.log(res);
