@@ -1,5 +1,6 @@
 import { signupSchema } from '@/schemas';
 import { useFormik } from 'formik';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import ImageUpload from '../Editor/ImageUpload';
@@ -26,16 +27,23 @@ export default function SingupForm() {
       formData.append('password', values.password);
       formData.append('image', values.image);
 
-      console.log(formData);
-
-      fetch('http://localhost:5000/api/users/signup', {
+      fetch(`https://placeme-backend.onrender.com/api/users/signup`, {
         method: 'POST',
         body: formData,
       })
         .then((res) => res.json())
         .then(function (res) {
-          console.log(res);
-          router.push('/');
+          console.log(res, '😅');
+          if (res.message) return;
+
+          signIn('credentials', {
+            redirect: false,
+            email: res.email,
+            password: values.password,
+          }).then((res) => {
+            console.log(res);
+            if (res.ok) router.push(`/`);
+          });
         })
         .catch(function (res) {
           console.log(res);
@@ -75,20 +83,20 @@ export default function SingupForm() {
         onChange={formik.handleChange}
         value={formik.values.password}
         onBlur={formik.handleBlur}
-        isError={formik.errors.password}
+        isError={formik.errors.password && formik.touched.password}
         errMessage={formik.errors.password}
       />
       <ImageUpload
         placeholder='Vybrat Obrázek'
         onBlur={formik.handleBlur}
-        isError={formik.errors.image}
+        isError={formik.errors.image && formik.touched.image}
         errMessage={formik.errors.image}
         onChange={(e) => {
           formik.setFieldValue('image', e.target.files[0]);
         }}
       />
 
-      <FormButton isValid={''} type='submit'>
+      <FormButton isValid={formik.isValid} type='submit'>
         Zaregistrovat se
       </FormButton>
     </Form>

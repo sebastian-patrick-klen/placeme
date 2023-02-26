@@ -1,6 +1,6 @@
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { AiFillSetting } from 'react-icons/ai';
+import { AiOutlineLogout } from 'react-icons/ai';
 
 export default function Nav() {
   const { data, status } = useSession();
@@ -38,7 +38,7 @@ export default function Nav() {
               onClick={() => signOut()}
               className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'
             >
-              <AiFillSetting size='21px' color='#94a3b8' />
+              <AiOutlineLogout size='21px' color='#94a3b8' />
             </p>
             // </Link>
           )}

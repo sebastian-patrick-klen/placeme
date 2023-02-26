@@ -36,7 +36,7 @@ export default function PlaceItem(props) {
       <div className='max-w-xl mx-auto flex flex-col bg-gray-100 rounded-lg overflow-hidden'>
         <Image
           className=' h-80'
-          src={`http://localhost:5000/${props.image}`}
+          src={`https://placeme-backend.onrender.com/${props.image}`}
           alt={props.title}
           width={600}
           height={250}

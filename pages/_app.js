@@ -4,6 +4,7 @@ import { ModalContextProvider } from '@/store/modal-context';
 import { PositionContextProvider } from '@/store/position-context';
 import { SessionProvider } from 'next-auth/react';
 import '@/styles/globals.css';
+import { NotificationContextProvider } from '@/store/notification-context';
 
 export default function App({
   Component,
@@ -11,15 +12,17 @@ export default function App({
 }) {
   return (
     <SessionProvider session={session}>
-      <ModalContextProvider>
-        <PositionContextProvider>
-          <DeleteContextProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </DeleteContextProvider>
-        </PositionContextProvider>
-      </ModalContextProvider>
+      <NotificationContextProvider>
+        <ModalContextProvider>
+          <PositionContextProvider>
+            <DeleteContextProvider>
+              <Layout>
+                <Component {...pageProps} />{' '}
+              </Layout>
+            </DeleteContextProvider>
+          </PositionContextProvider>
+        </ModalContextProvider>
+      </NotificationContextProvider>
     </SessionProvider>
   );
 }

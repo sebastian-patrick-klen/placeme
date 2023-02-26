@@ -2,8 +2,7 @@ import PlaceEditor from '@/components/Editor/PlaceEditor';
 import { motion as m } from 'framer-motion';
 import { getSession } from 'next-auth/react';
 
-export default function NewPlace({ session }) {
-  console.log(session);
+export default function NewPlace() {
   return (
     <m.div
       animate={{ y: '0%' }}
@@ -17,7 +16,9 @@ export default function NewPlace({ session }) {
 }
 
 export async function getServerSideProps(context) {
+  console.log(process.env.NEXTAUTH_SECRET);
   const session = await getSession({ req: context.req });
+  console.log(session);
   if (!session) {
     return {
       redirect: {
@@ -28,6 +29,6 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: { session },
+    props: {},
   };
 }

@@ -37,7 +37,7 @@ export default function MapPage(props) {
 }
 
 export async function getServerSideProps(context) {
-  const res = await fetch('http://localhost:5000/api/places');
+  const res = await fetch(`https://placeme-backend.onrender.com/api/places`);
 
   const { places } = await res.json();
 

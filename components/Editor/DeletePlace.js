@@ -14,7 +14,7 @@ export default function () {
   function handleDelete() {
     axios({
       method: 'delete',
-      url: `http://localhost:5000/api/places/${delCtx.newId}`,
+      url: `https://placeme-backend.onrender.com/api/places/${delCtx.newId}`,
       headers: { Authorization: `Bearer ${token.user.token}` },
     })
       .then((res) => {

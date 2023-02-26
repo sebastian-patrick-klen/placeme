@@ -40,7 +40,6 @@ export const signupSchema = yup.object().shape({
 export const updatePlaceSchema = yup.object().shape({
   title: yup
     .string()
-    .min(4, 'Název je příliš krátký, minimální délka názvu jsou 4 znaky.')
     .max(48, 'Název je příliš dlouhý, maximální délka názvu je 48 znaků.')
     .required('Zadejte prosím název místa, pole nesmí zůstat prázdné.'),
 
@@ -49,9 +48,6 @@ export const updatePlaceSchema = yup.object().shape({
     .min(4, 'Popis je příliš krátký, minimální délka popisu je 10 znaků.')
     .max(150, 'Popis je příliš dlouhý, maximální délka názvu je 150 znaků.')
     .required('Zadejte prosím popis místa, pole nesmí zůstat prázdné.'),
-  image: yup
-    .string()
-    .required('Vyberte si prosím obrázek, pole nesmí zůstat prázdné.'),
 });
 
 export const newPlaceSchema = yup.object().shape({

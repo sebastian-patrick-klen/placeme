@@ -1,3 +1,4 @@
+import { updatePlaceSchema } from '@/schemas';
 import PositionContext from '@/store/position-context';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -12,6 +13,7 @@ import Modal from '../Layout/UI/Modal';
 import SelectLocation from './SelectLocation';
 
 export default function PlaceUpdate({ isEdit, placeData }) {
+  const [isOpen, setIsOPen] = useState(false);
   const { data: token } = useSession();
   const router = useRouter();
   const posCtx = useContext(PositionContext);
@@ -23,15 +25,17 @@ export default function PlaceUpdate({ isEdit, placeData }) {
       description: '',
     },
 
+    validationSchema: updatePlaceSchema,
+
     onSubmit: (values) => {
+      setIsOPen(true);
       const formData = {
         title: values.title,
         description: values.description,
         lat: posCtx.newPlacePos.lat,
         lng: posCtx.newPlacePos.lng,
       };
-      const fetchString = `http://localhost:5000/api/places/${placeData._id}`;
-      console.log(token);
+      const fetchString = `https://placeme-backend.onrender.com/api/places/${placeData._id}`;
 
       fetch(fetchString, {
         method: 'PATCH',
@@ -73,20 +77,29 @@ export default function PlaceUpdate({ isEdit, placeData }) {
           name='title'
           placeholder='Název'
           type='title'
+          onBlur={formik.handleBlur}
           onChange={formik.handleChange}
           value={formik.values.title}
+          isError={formik.errors.title && formik.touched.title}
+          errMessage={formik.errors.title}
         />
         <Input
           id='description'
           name='description'
           placeholder='Popis'
           type='text'
+          onBlur={formik.handleBlur}
           onChange={formik.handleChange}
           value={formik.values.description}
+          isError={formik.errors.description && formik.touched.description}
+          errMessage={formik.errors.description}
         />
 
         <button
           type='button'
+          onBlur={() => {
+            setIsOPen(true);
+          }}
           onClick={setModalOpen}
           className='w-full mr-4 py-2 px-4
           rounded-full border-0
@@ -97,7 +110,9 @@ export default function PlaceUpdate({ isEdit, placeData }) {
           Vybrat místo na mapě
         </button>
 
-        <FormButton type='submit'>Přidat Místo</FormButton>
+        <FormButton isValid={formik.isValid} type='submit'>
+          Uložit změny
+        </FormButton>
       </Form>
       <AnimatePresence>
         {modalOpen && (

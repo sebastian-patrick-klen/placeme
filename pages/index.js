@@ -1,5 +1,6 @@
 import Loading from '@/components/Layout/Loading';
 import AllUsers from '@/components/User/AllUsers';
+
 import { motion as m } from 'framer-motion';
 import Error from 'next/error';
 
@@ -25,7 +26,7 @@ export default function HomePage({ errorCode, users }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch('http://localhost:5000/api/users');
+  const res = await fetch(`https://placeme-backend.onrender.com/api/users`);
   const errorCode = res.ok ? false : res.status;
   const { users } = await res.json();
 

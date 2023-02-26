@@ -4,10 +4,14 @@ import { useRouter } from 'next/router';
 import Form from '../Forms/Form';
 import FormButton from '../Forms/FormButton';
 import Input from '../Forms/Input';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { loginSchema } from '@/schemas';
+import { useEffect, useState } from 'react';
 
 export default function LoginForm() {
+  const { status } = useSession();
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -17,6 +21,7 @@ export default function LoginForm() {
     validationSchema: loginSchema,
 
     onSubmit: (values) => {
+      setIsLoading(true);
       signIn('credentials', {
         redirect: false,
         email: values.email,
@@ -24,6 +29,7 @@ export default function LoginForm() {
       }).then((res) => {
         console.log(res);
         if (res.ok) router.push(`/`);
+        setIsLoading(false);
       });
     },
   });
@@ -51,11 +57,13 @@ export default function LoginForm() {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values.password}
-        isError={formik.errors.password}
+        isError={formik.errors.password && formik.touched.password}
         errMessage={formik.errors.password}
       />
 
-      <FormButton type='submit'>Přihlásit se</FormButton>
+      <FormButton isValid={formik.isValid && !isLoading} type='submit'>
+        {!isLoading ? 'Přihlásit se' : 'Přihlašování...'}
+      </FormButton>
     </Form>
   );
 }

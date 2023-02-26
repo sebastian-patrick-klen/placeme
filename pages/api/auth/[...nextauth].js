@@ -26,11 +26,14 @@ export default NextAuth({
     CredentialProvider({
       name: 'credentials',
       authorize: async (credentials) => {
-        const res = await fetch('http://localhost:5000/api/users/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(credentials),
-        });
+        const res = await fetch(
+          `https://placeme-backend.onrender.com/api/users/login`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+          }
+        );
 
         const data = await res.json();
 

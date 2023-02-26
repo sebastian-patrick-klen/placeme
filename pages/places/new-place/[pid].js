@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
   }
 
   const id = context.params.pid;
-  const fetchString = `http://localhost:5000/api/places/${id}`;
+  const fetchString = `https://placeme-backend.onrender.com/api/places/${id}`;
   const res = await fetch(fetchString);
   const place = await res.json();
 
