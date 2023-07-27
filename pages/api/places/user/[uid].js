@@ -1,7 +1,9 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
+    const { uid } = req.query;
+
     const mongodb_url = process.env.MONGOBD_URL;
     let client;
 
@@ -14,16 +16,19 @@ export default async function handler(req, res) {
 
     const db = client.db();
 
+    const query = {
+      creator: new ObjectId(uid),
+    };
+
+    const settings = {};
+
     const places = await db
       .collection('places')
-      .find({})
+      .find(query, settings)
       .sort({ metacritic: -1 })
-      .limit(1)
       .toArray();
 
-    res
-      .status(200)
-      .json({ test: 'Hello World!', env: process.env.MONGOBD_URL, places });
+    res.status(200).json({ places, length: places.length });
   } else {
     // Handle any other HTTP method
   }

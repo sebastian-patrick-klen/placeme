@@ -14,16 +14,17 @@ export default async function handler(req, res) {
 
     const db = client.db();
 
-    const places = await db
-      .collection('places')
-      .find({})
+    const options = {
+      projection: { password: 0 },
+    };
+
+    const users = await db
+      .collection('users')
+      .find({}, options)
       .sort({ metacritic: -1 })
-      .limit(1)
       .toArray();
 
-    res
-      .status(200)
-      .json({ test: 'Hello World!', env: process.env.MONGOBD_URL, places });
+    res.status(200).json({ users });
   } else {
     // Handle any other HTTP method
   }
