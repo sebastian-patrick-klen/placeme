@@ -64,10 +64,9 @@ export default function Profile({ places }) {
 }
 
 export async function getServerSideProps(context) {
+  const fetch_url = process.env.API_URL;
   const id = context.params.uid;
-  const res = await fetch(
-    `https://placeme-backend.onrender.com/api/places/user/${id}`
-  );
+  const res = await fetch(`${fetch_url}/places/user/${id}`);
   const places = await res.json();
 
   return {
