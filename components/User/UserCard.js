@@ -27,7 +27,7 @@ export default function UserCard({ img, name, posts, id }) {
         <div>
           <Image
             className='object-cover w-20 h-20 bg-gray-100  rounded-full'
-            src={`https://placeme-backend.onrender.com/${img}`}
+            src={`${img}`}
             alt={'Profile image'}
             width={300}
             height={300}

@@ -8,8 +8,8 @@ export default function AllUsers({ users }) {
           img={user.image}
           name={user.name}
           posts={user.places.length}
-          id={user.id}
-          key={user.id}
+          id={user._id}
+          key={user._id}
         />
       ))}
     </div>

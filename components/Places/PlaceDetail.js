@@ -16,7 +16,7 @@ export default function PlaceDetail({ placesData }) {
       <div className='max-w-2xl mx-auto flex flex-col bg-gray-100 rounded-lg overflow-hidden'>
         <Image
           className=' h-96'
-          src={`https://placeme-backend.onrender.com/${placesData.image}`}
+          src={`${placesData.image}`}
           alt={placesData.title}
           width={700}
           height={250}
